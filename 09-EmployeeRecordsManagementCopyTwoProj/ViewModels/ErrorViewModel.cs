@@ -1,0 +1,9 @@
+namespace _09_EmployeeRecordsManagementCopyTwoProj.ViewModels
+{
+    public class ErrorViewModel
+    {
+        public string? RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    }
+}

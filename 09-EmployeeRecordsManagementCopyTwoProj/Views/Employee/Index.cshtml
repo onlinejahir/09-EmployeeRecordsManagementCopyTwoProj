@@ -1,0 +1,108 @@
+﻿@model PaginatedList<EmployeeViewModel>
+
+@{
+    ViewData["Title"] = "All Employees";
+}
+
+<div class="container">
+    @if (ViewBag.Message != null)
+    {
+        <div>
+            @ViewBag.Message
+        </div>
+    }
+    <div class="row p-4">
+        <div class="col-md-12">
+            <h3>All Employees</h3>
+        </div>
+    </div>
+    <div class="row p-4">
+        <div class="col-md-6">
+            <form asp-controller="Employee" asp-action="Index" class="d-flex">
+                <input type="search" name="searchString" placeholder="Search" class="form-control me-1" style="width:250px;" aria-label="Search" />
+                <button type="submit" class="btn btn-secondary">Search by name</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <a asp-controller="Employee" asp-action="Index" class="btn btn-success">Back to full list</a>
+        </div>
+    </div>
+    <div class="row p-4">
+        <div class="col-md-12">
+            <table class="table table-striped table-bordered table-success">
+                <thead>
+                    <tr>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Items[0].EmployeeId)</th>
+                        <th scope="col"><a asp-controller="Employee" asp-action="Index" asp-route-sortOrder="@ViewBag.NameSortParam" class="text-dark">@Html.DisplayNameFor(model => model.Items[0].FirstName)</a></th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Items[0].LastName)</th>
+                        <th scope="col"><a asp-controller="Employee" asp-action="Index" asp-route-sortOrder="@ViewBag.DateOfBirthSortParam" class="text-dark">@Html.DisplayNameFor(model => model.Items[0].DateOfBirth)</a></th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Items[0].Gender)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Items[0].Email)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Items[0].PhoneNumber)</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Items[0].Address)</th>
+                        <th scope="col"><a asp-controller="Employee" asp-action="Index" asp-route-sortOrder="@ViewBag.IsActiveSortParam" class="text-dark">@Html.DisplayNameFor(model => model.Items[0].IsActive)</a></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model.Items)
+                    {
+                        <tr>
+                            <td>@employee.EmployeeId</td>
+                            <td>@employee.FirstName</td>
+                            <td>@employee.LastName</td>
+                            <td>@employee.DateOfBirth</td>
+                            <td>@employee.Gender</td>
+                            <td>@employee.Email</td>
+                            <td>@employee.PhoneNumber</td>
+                            <td>@employee.Department.DepartmentName</td>
+                            <td>@employee.Address</td>
+                            <td>@employee.IsActive</td>
+                            <td><a class="btn btn-secondary" asp-controller="Employee" asp-action="Edit" asp-route-id="@employee.EmployeeId">Edit</a></td>
+                            <td><a class="btn btn-danger" asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.EmployeeId" onclick="return confirm('Are you sure you want to delete this employee')">Delete</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
+            <nav>
+                <ul class="pagination justify-content-end">
+                    <li class="page-item @(Model.PageIndex == 1 ? "disabled" : "")">
+                        <a class="page-link text-black" asp-route-pageNumber="1">
+                            <span>First</span>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link text-black" asp-route-pageNumber="@(Model.PageIndex - 1)">
+                            <span>Previous</span>
+                        </a>
+                    </li>
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                            <a class="page-link text-black" asp-route-pageNumber="@i">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link text-black" asp-route-pageNumber="@(Model.PageIndex + 1)">
+                            <span>Next</span>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.PageIndex == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link text-black" asp-route-pageNumber="@(Model.TotalPages)">
+                            <span>Last</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+

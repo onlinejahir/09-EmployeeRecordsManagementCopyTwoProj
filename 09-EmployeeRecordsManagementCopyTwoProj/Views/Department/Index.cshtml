@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DepartmentViewModel>
+
+@{
+    ViewData["Title"] = "All departments";
+}
+
+<div class="container">
+    @if (ViewBag.Message != null)
+    {
+        <div>
+            @ViewBag.Message
+        </div>
+    }
+    <div class="row p-4">
+        <div class="col-md-12">
+            <h3>All Departments</h3>
+        </div>
+    </div>
+    <div class="row p-4">
+        <div class="col-md-8">
+            <table class="table table-striped table-bordered table-success">
+                <thead>
+                    <tr>
+                        <th scope="col">@Html.DisplayNameFor(model => model.DepartmentId)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.DepartmentName)</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var department in Model)
+                    {
+                        <tr>
+                            <td>@department.DepartmentId</td>
+                            <td>@department.DepartmentName</td>
+                            <td><a class="btn btn-secondary" asp-controller="Department" asp-action="Edit" asp-route-id="@department.DepartmentId">Edit</a></td>
+                            <td><a class="btn btn-danger" asp-controller="Department" asp-action="Delete" asp-route-id="@department.DepartmentId" onclick="return confirm('Are you sure you want to delete this department')">Delete</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
